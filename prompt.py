@@ -157,3 +157,244 @@ from tool import get_completion
 # print(response)
 
 # 学习LLM-v1.0.0 学习到 四、1.1
+
+# text = f"""
+# You should express what you want a model to do by \
+# providing instructions that are as clear and \
+# specific as you can possibly make them. \
+# This will guide the model towards the desired output, \
+# and reduce the chances of receiving irrelevant \
+# or incorrect responses. Don't confuse writing a \
+# clear prompt with writing a short prompt. \
+# In many cases, longer prompts provide more clarity \
+# and context for the model, which can lead to \
+# more detailed and relevant outputs.
+# """
+# prompt = f"""
+# Summarize the text delimited by triple backticks \
+# into a single sentence.
+# ```{text}```
+# """
+# response = get_completion(prompt)
+# print(response)
+
+# prompt = f"""
+# 列举一些心理学相关的书籍的名称 \
+# 包含名称和出版社.请使用JSON格式且包含书籍唯一ID,名称,作者和出版社
+# """
+# response = get_completion(prompt)
+# print(response)
+
+
+# text_1 = f"""
+# Making a cup of tea is easy! First, you need to get some \
+# water boiling. While that's happening, \
+# grab a cup and put a tea bag in it. Once the water is \
+# hot enough, just pour it over the tea bag. \
+# Let it sit for a bit so the tea can steep. After a \
+# few minutes, take out the tea bag. If you \
+# like, you can add some sugar or milk to taste. \
+# And that's it! You've got yourself a delicious \
+# cup of tea to enjoy.
+# """
+# prompt = f"""
+# You will be provided with text delimited by triple quotes.
+# If it contains a sequence of instructions, \
+# re-write those instructions in the following format:
+# 第1步 - ...
+# 第2步 - …
+# …
+# 第N步 - …
+# If the text does not contain a sequence of instructions, \
+# then simply write \"No steps provided.\" 请以中文回答
+# \"\"\"{text_1}\"\"\"
+# """
+# response = get_completion(prompt)
+# print("煮茶的完整步骤:")
+# print(response)
+
+# text_2 = f"""
+# The sun is shining brightly today, and the birds are \
+# singing. It's a beautiful day to go for a \
+# walk in the park. The flowers are blooming, and the \
+# trees are swaying gently in the breeze. People \
+# are out and about, enjoying the lovely weather. \
+# Some are having picnics, while others are playing \
+# games or simply relaxing on the grass. It's a \
+# perfect day to spend time outdoors and appreciate the \
+# beauty of nature.
+# """
+# prompt = f"""You will be provided with text delimited by triple quotes.
+# If it contains a sequence of instructions, \
+# re-write those instructions in the following format:
+# Step 1 - ...
+# Step 2 - …
+# …
+# Step N - …
+# If the text does not contain a sequence of instructions, \
+# then simply write \"No steps provided.\"
+# \"\"\"{text_2}\"\"\"
+# """
+# response = get_completion(prompt)
+# print("Completion for Text 2:")
+# print(response)
+
+# prompt = f"""
+# 你的任务是以一致的风格回答。
+# 外孙：教我耐心。
+# 外公：雕刻最深的河流\
+# 山谷从一个不起眼的泉水流出；the\
+# 最伟大的交响乐源于一个音符； \
+# 最复杂的挂毯始于一根单独的线。
+# 外孙：教我韧性
+# """
+# response = get_completion(prompt)
+# print(response)
+
+# text = f"""
+# 在一个迷人的村庄里，兄弟姐妹杰克和吉尔出发了\
+# 从山顶取水的任务\
+# 好。当他们攀登时，欢快地歌唱着，不幸\
+# 杰克被石头绊倒了\
+# 下了山，吉尔也跟着下了山。 \
+# 虽然有点受伤，但两人还是回到了家\
+# 安慰的拥抱。尽管发生了意外\
+# 他们的冒险精神没有减弱，他们\
+# 继续愉快地探索。
+# """
+# example 1
+# prompt_1 = f"""
+# 1-将摘要翻译成日语。
+# 2-总结以下以三元组分隔的文本\
+# 用1句话总结。
+# 3-在日语摘要中列出每个名字。
+# 4-输出一个包含以下内容的json对象\
+# 关键字：french_summary，num_names。 
+# 文本：
+# ```{text}```
+# """
+# response = get_completion(prompt_1)
+# print("Completion for prompt 1:")
+# print(response)
+
+# prompt_2 = f"""
+# Your task is to perform the following actions:
+# 1 - Summarize the following text delimited by <> with 1 sentence.
+# 2 - Translate the summary into Korean.
+# 3 - List each name in the Korean summary.
+# 4 - Output a json object that contains the
+# following keys: korean_summary, num_names.
+# Use the following format:
+# Text: <text to summarize>
+# Summary: <summary>
+# Translation: <summary translation>
+# Names: <list of names in Korean summary>
+# Output JSON: <json with summary and num_names>
+# Text: <{text}>
+# """
+# response = get_completion(prompt_2)
+# print("\nCompletion for prompt 2:")
+# print(response)
+
+# prompt = f"""
+# Determine if the student's solution is correct or not.
+# Question:
+# I'm building a solar power installation and I need \
+# help working out the financials.
+# - Land costs $100 / square foot
+# - I can buy solar panels for $250 / square foot
+# - I negotiated a contract for maintenance that will cost \
+# me a flat $100k per year, and an additional $10 / square \
+# foot
+# What is the total cost for the first year of operations
+# as a function of the number of square feet.
+# Student's Solution:
+# Let x be the size of the installation in square feet.
+# Costs:
+# 1. Land cost: 100x
+# 2. Solar panel cost: 250x
+# 3. Maintenance cost: 100,000 + 100x
+# Total cost: 100x + 250x + 100,000 + 100x = 450x + 100,000
+# """
+# response = get_completion(prompt)
+# print(response)
+
+# prompt = f"""
+# Your task is to determine if the student's solution \
+# is correct or not.
+# To solve the problem do the following:
+# - First, work out your own solution to the problem.
+# - Then compare your solution to the student's solution \
+# and evaluate if the student's solution is correct or not.
+# Don't decide if the student's solution is correct until
+# you have done the problem yourself.
+# Use the following format:
+# Question:
+# question here
+# ```
+# Student's solution:
+# ```
+# student's solution here
+# ```
+# Actual solution:
+# ```
+# steps to work out the solution and your solution here
+# ```
+# Is the student's solution the same as actual solution \
+# just calculated:
+# ```
+# yes or no
+# ```
+# Student grade:
+# ```
+# correct or incorrect
+# ```
+# Question:
+# ```
+# I'm building a solar power installation and I need help \
+# working out the financials.
+# - Land costs $100 / square foot
+# - I can buy solar panels for $250 / square foot
+# - I negotiated a contract for maintenance that will cost \
+# me a flat $100k per year, and an additional $10 / square \
+# foot
+# What is the total cost for the first year of operations \
+# as a function of the number of square feet.
+# ```
+# Student's solution:
+# ```
+# Let x be the size of the installation in square feet.
+# Costs:
+# 1. Land cost: 100x
+# 2. Solar panel cost: 250x
+# 3. Maintenance cost: 100,000 + 100x
+# Total cost: 100x + 250x + 100,000 + 100x = 450x + 100,000
+# Actual solution:
+# """
+# response = get_completion(prompt)
+# print(response)
+
+# prompt = f"""
+# Tell me about AeroGlide UltraSlim Smart Toothbrush by Boie
+# """
+# response = get_completion(prompt)
+# print(response)
+# prompt = f"""
+# 告诉我Boie的AeroGlide超薄智能牙刷
+# """
+# response = get_completion(prompt)
+# print(response)
+
+# prompt = f"""
+# 帮我查询深圳南山区这周的天气
+# """
+# response = get_completion(prompt)
+# print(response)
+
+# prompt = f"""
+# 帮我分析一下利欧股份的股票行情，并给出一个短期操作的合理建议
+# """
+# response = get_completion(prompt)
+# print(response)
+
+# 学习到 <<第三章 迭代优化>>
