@@ -269,7 +269,7 @@ from tool import get_completion
 # 用1句话总结。
 # 3-在日语摘要中列出每个名字。
 # 4-输出一个包含以下内容的json对象\
-# 关键字：french_summary，num_names。 
+# 关键字：french_summary，num_names。
 # 文本：
 # ```{text}```
 # """
@@ -398,3 +398,150 @@ from tool import get_completion
 # print(response)
 
 # 学习到 <<第三章 迭代优化>>
+fact_sheet_chair = """
+概述
+    美丽的中世纪风格办公家具系列的一部分，包括文件柜、办公桌、书柜、会议桌等。
+    多种外壳颜色和底座涂层可选。
+    可选塑料前后靠背装饰（SWC-100）或10种面料和6种皮革的全面装饰（SWC-110）。
+    底座涂层选项为：不锈钢、哑光黑色、光泽白色或铬。
+    椅子可带或不带扶手。
+    适用于家庭或商业场所。
+    符合合同使用资格。
+结构
+    五个轮子的塑料涂层铝底座。
+    气动椅子调节，方便升降。
+尺寸
+    宽度53厘米|20.87英寸
+    深度51厘米|20.08英寸
+    高度80厘米|31.50英寸
+    座椅高度44厘米|17.32英寸
+    座椅深度41厘米|16.14英寸
+选项
+    软地板或硬地板滚轮选项。
+    两种座椅泡沫密度可选：中等（1.8磅/立方英尺）或高（2.8磅/立方英尺）。
+    无扶手或8个位置PU扶手。
+材料
+    外壳底座滑动件
+    改性尼龙PA6/PA66涂层的铸铝。
+    外壳厚度：10毫米。
+    座椅
+    HD36泡沫
+原产国
+    意大利
+"""
+
+# # Prompt ：基于说明书创建营销描述
+# prompt = f"""
+# 您的任务是帮助营销团队基于技术说明书创建一个产品的营销描述。
+# 根据```标记的技术说明书中提供的信息，编写一个产品描述。
+# 技术说明: ```{fact_sheet_chair}```
+# """
+# response = get_completion(prompt)
+# print(response)
+
+# 优化后的 Prompt，要求生成描述不多于 50 词
+# prompt = f"""
+# 您的任务是帮助营销团队基于技术说明书创建一个产品的零售网站描述。
+# 根据```标记的技术说明书中提供的信息，编写一个产品描述。
+# 使用最多50个词。
+# 技术规格：```{fact_sheet_chair}```
+# """
+# response = get_completion(prompt)
+
+# 优化后的 Prompt，说明面向对象，应具有什么性质且侧重于什么方面
+# prompt = f"""
+# 您的任务是帮助营销团队基于技术说明书创建一个产品的零售网站描述。
+# 根据```标记的技术说明书中提供的信息，编写一个产品描述。
+# 该描述面向家具零售商，因此应具有技术性质，并侧重于产品的材料构造。
+# 使用最多50个汉字。
+# 技术规格： ```{fact_sheet_chair}```
+# """
+# response = get_completion(prompt)
+
+# 更进一步
+# prompt = f"""
+# 您的任务是帮助营销团队基于技术说明书创建一个产品的零售网站描述。
+# 根据```标记的技术说明书中提供的信息，编写一个产品描述。
+# 该描述面向家具零售商，因此应具有技术性质，并侧重于产品的材料构造。
+# 在描述末尾，包括技术规格中每个7个字符的产品ID。
+# 使用最多50个汉字。
+# 技术规格： ```{fact_sheet_chair}```
+# """
+
+# from IPython.display import HTML, display
+# import os
+# import webbrowser
+# # 要求它抽取信息并组织成表格，并指定表格的列、表名和格式
+# prompt = f"""
+# 您的任务是帮助营销团队基于技术说明书创建一个产品的零售网站描述。
+# 根据```标记的技术说明书中提供的信息，编写一个产品描述。
+# 该描述面向家具零售商，因此应具有技术性质，并侧重于产品的材料构造。
+# 在描述末尾，包括技术规格中每个7个字符的产品ID。
+# 在描述之后，包括一个表格，提供产品的尺寸。表格应该有两列。第一列包括尺寸的名称。第二列只包括英寸的
+# 测量值。
+# 给表格命名为“产品尺寸”。
+# 将所有内容格式化为可用于网站的HTML格式。将描述放在<div>元素中。优化html样式。
+# 除表格外最多使用50个汉字。
+# 技术规格：```{fact_sheet_chair}```
+# """
+# response = get_completion(prompt)
+# display(HTML(response))
+# print(response)
+# <IPython.core.display.HTML object>
+# response = """```html
+# <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto;">
+#     <p>中世纪风格办公椅，采用改性尼龙PA6/PA66涂层铸铝底座，五轮设计，气动升降。可选多种外壳颜色、底座涂层及装饰面料。座椅采用HD36泡沫，密度可选。意大利制造。</p>
+    
+#     <h3 style="margin-top: 20px;">产品尺寸</h3>
+#     <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+#         <tr>
+#             <th style="border: 1px solid #ddd; padding: 8px; text-align: left; background-color: #f2f2f2;">尺寸名称</th>
+#             <th style="border: 1px solid #ddd; padding: 8px; text-align: left; background-color: #f2f2f2;">英寸</th>
+#         </tr>
+#         <tr>
+#             <td style="border: 1px solid #ddd; padding: 8px;">宽度</td>
+#             <td style="border: 1px solid #ddd; padding: 8px;">20.87</td>
+#         </tr>
+#         <tr>
+#             <td style="border: 1px solid #ddd; padding: 8px;">深度</td>
+#             <td style="border: 1px solid #ddd; padding: 8px;">20.08</td>
+#         </tr>
+#         <tr>
+#             <td style="border: 1px solid #ddd; padding: 8px;">高度</td>
+#             <td style="border: 1px solid #ddd; padding: 8px;">31.50</td>
+#         </tr>
+#         <tr>
+#             <td style="border: 1px solid #ddd; padding: 8px;">座椅高度</td>
+#             <td style="border: 1px solid #ddd; padding: 8px;">17.32</td>
+#         </tr>
+#         <tr>
+#             <td style="border: 1px solid #ddd; padding: 8px;">座椅深度</td>
+#             <td style="border: 1px solid #ddd; padding: 8px;">16.14</td>
+#         </tr>
+#     </table>
+    
+#     <p style="margin-top: 20px;">产品ID: SWC-100 / SWC-110</p>
+# </div>
+# ```
+# """
+# html_str = response.replace("```html", "").replace("```", "")
+# html = f"""
+# <!DOCTYPE html>
+# <html lang="en">
+# <head>
+#     <meta charset="UTF-8">
+#     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+#     <title>办公座椅产品描述</title>
+# </head>
+# <body>
+# {html_str}
+# </body>
+# </html>
+# """
+# with open("temp.html", "w") as file:
+#     file.write(html)
+
+# # # 使用默认的网页浏览器打开文件
+# webbrowser.open("file://" + os.path.realpath("temp.html"))
+
+# 学习到 <<二、总结>>
