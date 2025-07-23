@@ -398,37 +398,37 @@ from tool import get_completion
 # print(response)
 
 # 学习到 <<第三章 迭代优化>>
-fact_sheet_chair = """
-概述
-    美丽的中世纪风格办公家具系列的一部分，包括文件柜、办公桌、书柜、会议桌等。
-    多种外壳颜色和底座涂层可选。
-    可选塑料前后靠背装饰（SWC-100）或10种面料和6种皮革的全面装饰（SWC-110）。
-    底座涂层选项为：不锈钢、哑光黑色、光泽白色或铬。
-    椅子可带或不带扶手。
-    适用于家庭或商业场所。
-    符合合同使用资格。
-结构
-    五个轮子的塑料涂层铝底座。
-    气动椅子调节，方便升降。
-尺寸
-    宽度53厘米|20.87英寸
-    深度51厘米|20.08英寸
-    高度80厘米|31.50英寸
-    座椅高度44厘米|17.32英寸
-    座椅深度41厘米|16.14英寸
-选项
-    软地板或硬地板滚轮选项。
-    两种座椅泡沫密度可选：中等（1.8磅/立方英尺）或高（2.8磅/立方英尺）。
-    无扶手或8个位置PU扶手。
-材料
-    外壳底座滑动件
-    改性尼龙PA6/PA66涂层的铸铝。
-    外壳厚度：10毫米。
-    座椅
-    HD36泡沫
-原产国
-    意大利
-"""
+# fact_sheet_chair = """
+# 概述
+#     美丽的中世纪风格办公家具系列的一部分，包括文件柜、办公桌、书柜、会议桌等。
+#     多种外壳颜色和底座涂层可选。
+#     可选塑料前后靠背装饰（SWC-100）或10种面料和6种皮革的全面装饰（SWC-110）。
+#     底座涂层选项为：不锈钢、哑光黑色、光泽白色或铬。
+#     椅子可带或不带扶手。
+#     适用于家庭或商业场所。
+#     符合合同使用资格。
+# 结构
+#     五个轮子的塑料涂层铝底座。
+#     气动椅子调节，方便升降。
+# 尺寸
+#     宽度53厘米|20.87英寸
+#     深度51厘米|20.08英寸
+#     高度80厘米|31.50英寸
+#     座椅高度44厘米|17.32英寸
+#     座椅深度41厘米|16.14英寸
+# 选项
+#     软地板或硬地板滚轮选项。
+#     两种座椅泡沫密度可选：中等（1.8磅/立方英尺）或高（2.8磅/立方英尺）。
+#     无扶手或8个位置PU扶手。
+# 材料
+#     外壳底座滑动件
+#     改性尼龙PA6/PA66涂层的铸铝。
+#     外壳厚度：10毫米。
+#     座椅
+#     HD36泡沫
+# 原产国
+#     意大利
+# """
 
 # # Prompt ：基于说明书创建营销描述
 # prompt = f"""
@@ -491,7 +491,7 @@ fact_sheet_chair = """
 # response = """```html
 # <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto;">
 #     <p>中世纪风格办公椅，采用改性尼龙PA6/PA66涂层铸铝底座，五轮设计，气动升降。可选多种外壳颜色、底座涂层及装饰面料。座椅采用HD36泡沫，密度可选。意大利制造。</p>
-    
+
 #     <h3 style="margin-top: 20px;">产品尺寸</h3>
 #     <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
 #         <tr>
@@ -519,7 +519,7 @@ fact_sheet_chair = """
 #             <td style="border: 1px solid #ddd; padding: 8px;">16.14</td>
 #         </tr>
 #     </table>
-    
+
 #     <p style="margin-top: 20px;">产品ID: SWC-100 / SWC-110</p>
 # </div>
 # ```
@@ -543,5 +543,132 @@ fact_sheet_chair = """
 
 # # # 使用默认的网页浏览器打开文件
 # webbrowser.open("file://" + os.path.realpath("temp.html"))
-
 # 学习到 <<二、总结>>
+
+# fact_sheet_chair = """
+# OVERVIEW
+# - Part of a beautiful family of mid-century inspired office furniture,
+# including filing cabinets, desks, bookcases, meeting tables, and more.
+# - Several options of shell color and base finishes.
+# - Available with plastic back and front upholstery (SWC-100)
+# or full upholstery (SWC-110) in 10 fabric and 6 leather options.
+# - Base finish options are: stainless steel, matte black,
+# gloss white, or chrome.
+# - Chair is available with or without armrests.
+# - Suitable for home or business settings.
+# - Qualified for contract use.
+# CONSTRUCTION
+# - 5-wheel plastic coated aluminum base.
+# - Pneumatic chair adjust for easy raise/lower action.
+# DIMENSIONS
+# - WIDTH 53 CM | 20.87”
+# - DEPTH 51 CM | 20.08”
+# - HEIGHT 80 CM | 31.50”
+# - SEAT HEIGHT 44 CM | 17.32”
+# - SEAT DEPTH 41 CM | 16.14”
+# OPTIONS
+# - Soft or hard-floor caster options.
+# - Two choices of seat foam densities:
+# medium (1.8 lb/ft3) or high (2.8 lb/ft3)
+# - Armless or 8 position PU armrests
+# MATERIALS
+# SHELL BASE GLIDER
+# - Cast Aluminum with modified nylon PA6/PA66 coating.
+# - Shell thickness: 10 mm.
+# SEAT
+# - HD36 foam
+# COUNTRY OF ORIGIN
+# - Italy
+# """
+# Prompt ：基于说明书生成营销描述
+# prompt = f"""
+# Your task is to help a marketing team create a
+# description for a retail website of a product based
+# on a technical fact sheet.
+# Write a product description based on the information
+# provided in the technical specifications delimited by
+# triple backticks.
+# Technical specifications: ```{fact_sheet_chair}```
+# """
+# response = get_completion(prompt)
+# print(response)
+
+# 优化后的 Prompt，要求生成描述不多于 50 词
+# prompt = f"""
+# Your task is to help a marketing team create a
+# description for a retail website of a product based
+# on a technical fact sheet.
+# Write a product description based on the information
+# provided in the technical specifications delimited by
+# triple backticks.
+# Use at most 50 words.
+# Technical specifications: ```{fact_sheet_chair}```
+# """
+# response = get_completion(prompt)
+# print(response)
+
+# 优化后的 Prompt，说明面向对象，应具有什么性质且侧重于什么方面
+# prompt = f"""
+# Your task is to help a marketing team create a
+# description for a retail website of a product based
+# on a technical fact sheet.
+# Write a product description based on the information
+# provided in the technical specifications delimited by
+# triple backticks.
+# The description is intended for furniture retailers,
+# so should be technical in nature and focus on the
+# materials the product is constructed from.
+# Use at most 50 words.
+# Technical specifications: ```{fact_sheet_chair}```
+# """
+# response = get_completion(prompt)
+# print(response)
+
+# 更进一步，要求在描述末尾包含 7个字符的产品ID
+# prompt = f"""
+# Your task is to help a marketing team create a
+# description for a retail website of a product based
+# on a technical fact sheet.
+# Write a product description based on the information
+# provided in the technical specifications delimited by
+# triple backticks.
+# The description is intended for furniture retailers,
+# so should be technical in nature and focus on the
+# materials the product is constructed from.
+# At the end of the description, include every 7-character
+# Product ID in the technical specification.
+# Use at most 50 words.
+# Technical specifications: ```{fact_sheet_chair}```
+# """
+# response = get_completion(prompt)
+# print(response)
+
+# 要求它抽取信息并组织成表格，并指定表格的列、表名和格式
+# prompt = f"""
+# Your task is to help a marketing team create a
+# description for a retail website of a product based
+# on a technical fact sheet.
+# Write a product description based on the information
+# provided in the technical specifications delimited by
+# triple backticks.
+# The description is intended for furniture retailers,
+# so should be technical in nature and focus on the
+# materials the product is constructed from.
+# At the end of the description, include every 7-character
+# Product ID in the technical specification.
+# After the description, include a table that gives the
+# product's dimensions. The table should have two columns.
+# In the first column include the name of the dimension.
+# In the second column include the measurements in inches only.
+# Give the table the title 'Product Dimensions'.
+# Format everything as HTML that can be used in a website.
+# Place the description in a <div> element.
+# Technical specifications: ```{fact_sheet_chair}```
+# """
+# response = get_completion(prompt)
+# print(response)
+# # 表格是以 HTML 格式呈现的，加载出来
+# from IPython.display import display, HTML
+# display(HTML(response))
+
+# 学习到 <<第四章 文本概括>>
