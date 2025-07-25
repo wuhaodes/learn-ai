@@ -895,7 +895,7 @@ from tool import get_completion
 #     backticks in at most 20 words.
 #     Review: ```{reviews[i]}```
 #     """
-#     response = get_completion(prompt)   
+#     response = get_completion(prompt)
 #     print(i+1, response, "\n")
 
 # lamp_review = """
@@ -968,3 +968,182 @@ from tool import get_completion
 # print(response)
 
 # 学习到 <<三、主题推断>>
+
+# # 中文
+# story = """
+# 在政府最近进行的一项调查中，要求公共部门的员工对他们所在部门的满意度进行评分。
+# 调查结果显示，NASA 是最受欢迎的部门，满意度为 95％。
+# 一位 NASA 员工 John Smith 对这一发现发表了评论，他表示：
+# “我对 NASA 排名第一并不感到惊讶。这是一个与了不起的人们和令人难以置信的机会共事的好地方。我为成
+# 为这样一个创新组织的一员感到自豪。”
+# NASA 的管理团队也对这一结果表示欢迎，主管 Tom Johnson 表示：
+# “我们很高兴听到我们的员工对 NASA 的工作感到满意。
+# 我们拥有一支才华横溢、忠诚敬业的团队，他们为实现我们的目标不懈努力，看到他们的辛勤工作得到回报是太
+# 棒了。”
+# 调查还显示，社会保障管理局的满意度最低，只有 45％的员工表示他们对工作满意。
+# 政府承诺解决调查中员工提出的问题，并努力提高所有部门的工作满意度。
+# """
+
+# # 中文
+# prompt = f"""
+# 确定以下给定文本中讨论的五个主题。
+# 每个主题用1-2个词概括。
+# 请输出一个可解析的Python列表，每个元素是一个字符串，展示了一个主题。
+# 给定文本: ```{story}```
+# """
+# response = get_completion(prompt)
+# print(response)
+
+# # 中文
+# prompt = f"""
+# 判断主题列表中的每一项是否是给定文本中的一个话题，
+# 以列表的形式给出答案，每个元素是一个Json对象，键为对应主题，值为对应的 0 或 1。
+# 主题列表：美国航空航天局、当地政府、工程、员工满意度、联邦政府
+# 给定文本: ```{story}```
+# """
+# response = get_completion(prompt)
+# print(response)
+# result = response.replace("`", "").replace("json\n", "")
+# result_lst = eval(result)
+# topic_dict = {list(i.keys())[0]: list(i.values())[0] for i in result_lst}
+# print(topic_dict)
+# if topic_dict["美国航空航天局"] == 1:
+#     print("提醒: 关于美国航空航天局的新消息")
+
+# lamp_review = """
+# Needed a nice lamp for my bedroom, and this one had \
+# additional storage and not too high of a price point. \
+# Got it fast. The string to our lamp broke during the \
+# transit and the company happily sent over a new one. \
+# Came within a few days as well. It was easy to put \
+# together. I had a missing part, so I contacted their \
+# support and they very quickly got me the missing piece! \
+# Lumina seems to me to be a great company that cares \
+# about their customers and products!!
+# """
+# prompt = f"""
+# What is the sentiment of the following product review,
+# which is delimited with triple backticks?
+# Review text: ```{lamp_review}```
+# """
+# response = get_completion(prompt)
+# print(response)
+
+# prompt = f"""
+# What is the sentiment of the following product review,
+# which is delimited with triple backticks?
+# Give your answer as a single word, either "positive" \
+# or "negative".
+# Review text: ```{lamp_review}```
+# """
+# response = get_completion(prompt)
+# print(response)
+
+# prompt = f"""
+# Identify a list of emotions that the writer of the \
+# following review is expressing. Include no more than \
+# five items in the list. Format your answer as a list of \
+# lower-case words separated by commas.
+# Review text: ```{lamp_review}```
+# """
+# response = get_completion(prompt)
+# print(response)
+
+# prompt = f"""
+# Is the writer of the following review expressing anger?\
+# The review is delimited with triple backticks. \
+# Give your answer as either yes or no.
+# Review text: ```{lamp_review}```
+# """
+# response = get_completion(prompt)
+# print(response)
+
+# prompt = f"""
+# Identify the following items from the review text:
+# - Item purchased by reviewer
+# - Company that made the item
+# The review is delimited with triple backticks. \
+# Format your response as a JSON object with \
+# "Item" and "Brand" as the keys.
+# If the information isn't present, use "unknown" \
+# as the value.
+# Make your response as short as possible.
+# Review text: ```{lamp_review}```
+# """
+# response = get_completion(prompt)
+# print(response)
+
+# prompt = f"""
+# Identify the following items from the review text:
+# - Sentiment (positive or negative)
+# - Is the reviewer expressing anger? (true or false)
+# - Item purchased by reviewer
+# - Company that made the item
+# The review is delimited with triple backticks. \
+# Format your response as a JSON object with \
+# "Sentiment", "Anger", "Item" and "Brand" as the keys.
+# If the information isn't present, use "unknown" \
+# as the value.
+# Make your response as short as possible.
+# Format the Anger value as a boolean.
+# Review text: ```{lamp_review}```
+# """
+# response = get_completion(prompt)
+# print(response)
+
+# 3.1 推断讨论主题
+
+story = """
+In a recent survey conducted by the government,
+public sector employees were asked to rate their level
+of satisfaction with the department they work at.
+The results revealed that NASA was the most popular
+department with a satisfaction rating of 95%.
+One NASA employee, John Smith, commented on the findings,
+stating, "I'm not surprised that NASA came out on top.
+It's a great place to work with amazing people and
+incredible opportunities. I'm proud to be a part of
+such an innovative organization."
+The results were also welcomed by NASA's management team,
+with Director Tom Johnson stating, "We are thrilled to
+hear that our employees are satisfied with their work at NASA.
+We have a talented and dedicated team who work tirelessly
+to achieve our goals, and it's fantastic to see that their
+hard work is paying off."
+The survey also revealed that the
+Social Security Administration had the lowest satisfaction
+rating, with only 45% of employees indicating they were
+satisfied with their job. The government has pledged to
+address the concerns raised by employees in the survey and
+work towards improving job satisfaction across all departments.
+"""
+# prompt = f"""
+# Determine five topics that are being discussed in the \
+# following text, which is delimited by triple backticks.
+# Make each item one or two words long.
+# Format your response as a list of items separated by commas.
+# Give me a list which can be read in Python.
+# Text sample: ```{story}```
+# """
+# response = get_completion(prompt)
+# print(response)
+
+# topic_list = [
+#     "nasa",
+#     "local government",
+#     "engineering",
+#     "employee satisfaction",
+#     "federal government",
+# ]
+# prompt = f"""
+# Determine whether each item in the following list of \
+# topics is a topic in the text below, which
+# is delimited with triple backticks.
+# Give your answer as list with 0 or 1 for each topic.\
+# List of topics: {", ".join(topic_list)}
+# Text sample: ```{story}```
+# """
+# response = get_completion(prompt)
+# print(response)
+
+# 学习到 《3.2 为特定主题制作新闻提醒》
