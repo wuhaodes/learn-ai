@@ -1093,30 +1093,30 @@ from tool import get_completion
 
 # 3.1 推断讨论主题
 
-story = """
-In a recent survey conducted by the government,
-public sector employees were asked to rate their level
-of satisfaction with the department they work at.
-The results revealed that NASA was the most popular
-department with a satisfaction rating of 95%.
-One NASA employee, John Smith, commented on the findings,
-stating, "I'm not surprised that NASA came out on top.
-It's a great place to work with amazing people and
-incredible opportunities. I'm proud to be a part of
-such an innovative organization."
-The results were also welcomed by NASA's management team,
-with Director Tom Johnson stating, "We are thrilled to
-hear that our employees are satisfied with their work at NASA.
-We have a talented and dedicated team who work tirelessly
-to achieve our goals, and it's fantastic to see that their
-hard work is paying off."
-The survey also revealed that the
-Social Security Administration had the lowest satisfaction
-rating, with only 45% of employees indicating they were
-satisfied with their job. The government has pledged to
-address the concerns raised by employees in the survey and
-work towards improving job satisfaction across all departments.
-"""
+# story = """
+# In a recent survey conducted by the government,
+# public sector employees were asked to rate their level
+# of satisfaction with the department they work at.
+# The results revealed that NASA was the most popular
+# department with a satisfaction rating of 95%.
+# One NASA employee, John Smith, commented on the findings,
+# stating, "I'm not surprised that NASA came out on top.
+# It's a great place to work with amazing people and
+# incredible opportunities. I'm proud to be a part of
+# such an innovative organization."
+# The results were also welcomed by NASA's management team,
+# with Director Tom Johnson stating, "We are thrilled to
+# hear that our employees are satisfied with their work at NASA.
+# We have a talented and dedicated team who work tirelessly
+# to achieve our goals, and it's fantastic to see that their
+# hard work is paying off."
+# The survey also revealed that the
+# Social Security Administration had the lowest satisfaction
+# rating, with only 45% of employees indicating they were
+# satisfied with their job. The government has pledged to
+# address the concerns raised by employees in the survey and
+# work towards improving job satisfaction across all departments.
+# """
 # prompt = f"""
 # Determine five topics that are being discussed in the \
 # following text, which is delimited by triple backticks.
@@ -1147,3 +1147,88 @@ work towards improving job satisfaction across all departments.
 # print(response)
 
 # 学习到 《3.2 为特定主题制作新闻提醒》
+
+# topic_list = [
+#     "nasa",
+#     "local government",
+#     "engineering",
+#     "employee satisfaction",
+#     "federal government",
+# ]
+# prompt = f"""
+# Determine whether each item in the following list of \
+# topics is a topic in the text below, which
+# is delimited with triple backticks.
+# Give your answer as list with 0 or 1 for each topic.\
+# please only give a list for answer.\
+# List of topics: {", ".join(topic_list)}
+# Text sample: ```{story}```
+# """
+# response = get_completion(prompt)
+# print(response)
+
+# topic_dict = {topic_list[i]: eval(response)[i] for i in range(len(eval(response)))}
+# print(topic_dict)
+# if topic_dict["nasa"] == 1:
+#     print("ALERT: New NASA story!")
+
+# prompt = f"""
+# 将以下中文翻译成甲骨文,按照下列格式给出翻译结果去掉解释过程及详解: \
+# ```您好，我想订购一个搅拌机。```
+# """
+# response = get_completion(prompt)
+# print(response)
+
+# prompt = f"""
+# 请告诉我以下文本是什么语种,并翻译为中文.
+# 按照格式 <结果语种>==><中文>: 翻译结果\
+# 格式不需要输出\
+# 文本如下:
+# ```Combien coûte le lampadaire?```
+# """
+# response = get_completion(prompt)
+# print(response)
+
+# prompt = f"""
+# 请将以下文本分别翻译成中文、英文、法语和西班牙语.\
+# 输出格式输出格式为: <语种>: <翻译结果>\
+# 文本如下:\
+# ```I want to order a basketball.```
+# """
+# response = get_completion(prompt)
+# print(response)
+
+# prompt = f"""
+# 请将以下文本翻译成中文、英文、法语和西班牙语，分别展示成正式与非正式两种语气.
+# 输出格式为: <语种-语气>: <翻译结果>\
+# ```Would you like to order a pillow?```
+# """
+# response = get_completion(prompt)
+# print(response)
+
+# user_messages = [
+# "La performance du système est plus lente que d'habitude.", # System performance is slower than normal
+# "Mi monitor tiene píxeles que no se iluminan.", # My monitor has pixels that are not lighting
+# "Il mio mouse non funziona", # My mouse is not working
+# "Mój klawisz Ctrl jest zepsuty", # My keyboard has a broken control key
+# "我的屏幕在闪烁" # My screen is flashing
+# ]
+
+# import time
+# for message in user_messages:
+#     time.sleep(20)
+#     prompt = f"告诉我以下文本是什么语种，直接输出语种，如法语，无需输出标点符号:\
+#     ```{message}```"
+#     lang = get_completion(prompt)
+#     print(f"原始消息 ({lang}): {message}\n")
+#     prompt = f"""
+#     将以下消息分别翻译成英文和中文，并写成
+#     中文翻译：xxx
+#     英文翻译：yyy
+#     的格式：
+#     ```{message}```
+#     """
+#     response = get_completion(prompt)
+#     print(response, "\n=========================================")
+
+# 学习到 <<二、语气与写作风格调整>>
