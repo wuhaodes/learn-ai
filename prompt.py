@@ -1232,3 +1232,64 @@ from tool import get_completion
 #     print(response, "\n=========================================")
 
 # 学习到 <<二、语气与写作风格调整>>
+
+# prompt = f"""
+# 将以下文本翻译成商务信函的格式:
+# ```小老弟，我小羊，上回你说咱部门要采购的显示器是多少寸来着？```
+# """
+# response = get_completion(prompt)
+# print(response)
+
+# data_json = { "resturant employees" :[
+# {"name":"Shyam", "email":"shyamjaiswal@gmail.com"},
+# {"name":"Bob", "email":"bob32@gmail.com"},
+# {"name":"Jai", "email":"jai87@gmail.com"}
+# ]}
+# prompt = f"""
+# 将以下Python字典从JSON转换为HTML表格，保留表格标题和列名：{data_json}
+# """
+# response = get_completion(prompt)
+# print(response)
+
+# text = [
+#     "The girl with the black and white puppies have a ball.",  # The girl has a ball.
+#     "Yolanda has her notebook.",  # ok
+#     "Its going to be a long day. Does the car need it’s oil changed?",  # Homonyms
+#     "Their goes my freedom. There going to bring they’re suitcases.",  # Homonyms
+#     "Your going to need you’re notebook.",  # Homonyms
+#     "That medicine effects my ability to sleep. Have you heard of the butterfly affect?",  # Homonyms
+#     "This phrase is to cherck chatGPT for spelling abilitty",  # spelling
+# ]
+# for i in range(len(text)):
+#     prompt = f"""请校对并更正以下文本，注意纠正文本保持原始语种，无需输出原始文本。\
+#     如果您没有发现任何错误，原样输出。\
+#     例如：
+#     输入：I are happy.
+#     输出：I am happy.
+#     如发现错误,更正后输出保持原格式.\
+#     文本如下:\
+#     {text[i]}"""
+#     response = get_completion(prompt)
+#     print(response)
+
+# text = f"""
+# Got this for my daughter for her birthday cuz she keeps taking \
+# mine from my room. Yes, adults also like pandas too. She takes \
+# it everywhere with her, and it's super soft and cute. One of the \
+# ears is a bit lower than the other, and I don't think that was \
+# designed to be asymmetrical. It's a bit small for what I paid for it \
+# though. I think there might be other options that are bigger for \
+# the same price. It arrived a day earlier than expected, so I got \
+# to play with it myself before I gave it to my daughter.
+# """
+# prompt = f"校对并更正以下商品评论并原样输出不需要解释：{text}"
+# response = get_completion(prompt)
+# print(response)
+
+# from redlines import Redlines  # type: ignore
+# from IPython.display import Markdown
+
+# diff = Redlines(text, response)
+# print(Markdown(diff.output_markdown))
+
+# 学习到 五、综合样例
