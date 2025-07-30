@@ -1287,9 +1287,188 @@ from tool import get_completion
 # print(response)
 
 # from redlines import Redlines  # type: ignore
-# from IPython.display import Markdown
 
 # diff = Redlines(text, response)
-# print(Markdown(diff.output_markdown))
+# print(diff.output_markdown)
 
 # 学习到 五、综合样例
+
+# prompt = f"""
+# 针对以下三个反引号之间的英文评论文本，
+# 首先进行拼写及语法纠错，
+# 然后将其转化成中文，
+# 再将其转化成优质淘宝评论的风格，从各种角度出发，分别说明产品的优点与缺点，并进行总结。
+# 润色一下描述，使评论更具有吸引力。
+# 输出结果格式为：
+# 【优点】xxx
+# 【缺点】xxx
+# 【总结】xxx
+# 注意，只需填写xxx部分，并分段输出。
+# 将结果输出成Markdown格式。
+# ```{text}```
+# """
+# response = get_completion(prompt)
+# print(response)
+
+# prompt = f"""
+# Translate the following English text to Spanish: \
+# ```Hi, I would like to order a blender```
+# """
+# response = get_completion(prompt)
+# print(response)
+
+# prompt = f"""
+# Tell me which language this is:
+# ```Combien coûte le lampadaire?```
+# """
+# response = get_completion(prompt)
+# print(response)
+
+# prompt = f"""
+# Translate the following text to French and Spanish
+# and English pirate: \
+# ```I want to order a basketball```
+# """
+# response = get_completion(prompt)
+# print(response)
+
+# prompt = f"""
+# Translate the following text to Spanish in both the \
+# formal and informal forms:
+# 'Would you like to order a pillow?'
+# """
+# response = get_completion(prompt)
+# print(response)
+
+# user_messages = [
+# "La performance du système est plus lente que d'habitude.", # System performance is slower than normal
+# "Mi monitor tiene píxeles que no se iluminan.", # My monitor has pixels that are not lighting
+# "Il mio mouse non funziona", # My mouse is not working
+# "Mój klawisz Ctrl jest zepsuty", # My keyboard has a broken control key
+# "我的屏幕在闪烁" # My screen is flashing
+# ]
+
+# for issue in user_messages:
+#     prompt = f"Tell me what language this is: ```{issue}```"
+#     lang = get_completion(prompt)
+#     print(f"Original message ({lang}): {issue}")
+#     prompt = f"""
+#     Translate the following text to English \
+#     and Korean: ```{issue}```
+#     """
+#     response = get_completion(prompt)
+#     print(response, "\n")
+
+# prompt = f"""
+# Translate the following from slang to a business letter:
+# 'Dude, This is Joe, check out this spec on this standing lamp.'
+# """
+# response = get_completion(prompt)
+# print(response)
+
+# data_json = {
+#     "resturant employees": [
+#         {"name": "Shyam", "email": "shyamjaiswal@gmail.com"},
+#         {"name": "Bob", "email": "bob32@gmail.com"},
+#         {"name": "Jai", "email": "jai87@gmail.com"},
+#     ]
+# }
+# prompt = f"""
+# Translate the following python dictionary from JSON to an HTML \
+# table with column headers and title: {data_json}
+# """
+# response = get_completion(prompt)
+# print(response)
+
+# text = [
+# "The girl with the black and white puppies have a ball.", # The girl has a ball.
+# "Yolanda has her notebook.", # ok
+# "Its going to be a long day. Does the car need it’s oil changed?", # Homonyms
+# "Their goes my freedom. There going to bring they’re suitcases.", # Homonyms
+# "Your going to need you’re notebook.", # Homonyms
+# "That medicine effects my ability to sleep. Have you heard of the butterfly affect?", # Homonyms
+# "This phrase is to cherck chatGPT for spelling abilitty" # spelling
+# ]
+
+# for t in text:
+#     prompt = f"""Proofread and correct the following text
+#     and rewrite the corrected version. If you don't find
+#     and errors, just say "No errors found". Don't use
+#     any punctuation around the text:
+#     ```{t}```"""
+#     response = get_completion(prompt)
+#     print(response)
+
+# text = f"""
+# Got this for my daughter for her birthday cuz she keeps taking \
+# mine from my room. Yes, adults also like pandas too. She takes \
+# it everywhere with her, and it's super soft and cute. One of the \
+# ears is a bit lower than the other, and I don't think that was \
+# designed to be asymmetrical. It's a bit small for what I paid for it \
+# though. I think there might be other options that are bigger for \
+# the same price. It arrived a day earlier than expected, so I got \
+# to play with it myself before I gave it to my daughter.
+# """
+
+# prompt = f"proofread and correct this review: ```{text}```"
+# response = get_completion(prompt)
+# print(response)
+
+# text = f"""
+# Got this for my daughter for her birthday cuz she keeps taking \
+# mine from my room. Yes, adults also like pandas too. She takes \
+# it everywhere with her, and it's super soft and cute. One of the \
+# ears is a bit lower than the other, and I don't think that was \
+# designed to be asymmetrical. It's a bit small for what I paid for it \
+# though. I think there might be other options that are bigger for \
+# the same price. It arrived a day earlier than expected, so I got \
+# to play with it myself before I gave it to my daughter.
+# """
+
+# prompt = f"""
+# proofread and correct this review. Make it more compelling.
+# Ensure it follows APA style guide and targets an advanced reader.
+# Output in markdown format.
+# Text: ```{text}```
+# """
+# # 校对注：APA style guide是APA Style Guide是一套用于心理学和相关领域的研究论文写作和格式化的规则。
+# # 它包括了文本的缩略版，旨在快速阅读，包括引用、解释和参考列表，
+# # 其详细内容可参考：https://apastyle.apa.org/about-apa-style
+# # 下一单元格内的汉化prompt内容由译者进行了本地化处理，仅供参考
+# response = get_completion(prompt)
+# print(response)
+
+# # 我们可以在推理那章学习到如何对一个评论判断其情感倾向
+# sentiment = "消极的"
+# # 一个产品的评价
+# review = f"""
+# 他们在11月份的季节性销售期间以约49美元的价格出售17件套装，折扣约为一半。\
+# 但由于某些原因（可能是价格欺诈），到了12月第二周，同样的套装价格全都涨到了70美元到89美元不等。\
+# 11件套装的价格也上涨了大约10美元左右。\
+# 虽然外观看起来还可以，但基座上锁定刀片的部分看起来不如几年前的早期版本那么好。\
+# 不过我打算非常温柔地使用它，例如，\
+# 我会先在搅拌机中将像豆子、冰、米饭等硬物研磨，然后再制成所需的份量，\
+# 切换到打蛋器制作更细的面粉，或者在制作冰沙时先使用交叉切割刀片，然后使用平面刀片制作更细/不粘的效
+# 果。\
+# 制作冰沙时，特别提示：\
+# 将水果和蔬菜切碎并冷冻（如果使用菠菜，则轻轻煮软菠菜，然后冷冻直到使用；\
+# 如果制作果酱，则使用小到中号的食品处理器），这样可以避免在制作冰沙时添加太多冰块。\
+# 大约一年后，电机发出奇怪的噪音，我打电话给客服，但保修已经过期了，所以我不得不再买一个。\
+# 总的来说，这些产品的总体质量已经下降，因此它们依靠品牌认可和消费者忠诚度来维持销售。\
+# 货物在两天内到达。
+# """
+# prompt = f"""
+# 你是一位客户服务的AI助手。
+# 你的任务是给一位重要客户发送邮件回复。
+# 根据客户通过“```”分隔的评价，生成回复以感谢客户的评价。提醒模型使用评价中的具体细节
+# 用简明而专业的语气写信。
+# 作为“AI客户代理”签署电子邮件。
+# 请用中文回答问题。
+# 客户评论：
+# ```{review}```
+# 评论情感：{sentiment}
+# """
+# response = get_completion(prompt)
+# print(response)
+
+# 学习到 二、引入温度系数
