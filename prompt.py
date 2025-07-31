@@ -1,4 +1,4 @@
-from tool import get_completion
+from tool import collect_messages, get_completion, get_completion_from_messages
 
 # text = f"""
 # 您应该提供尽可能清晰、具体的指示，以表达您希望模型执行的任务。\
@@ -1536,3 +1536,41 @@ from tool import get_completion
 # print(response)
 
 # 学习到 第八章 聊天机器人
+
+# messages = [
+#     {"role": "system", "content": "你是一个像莎士比亚一样说话的助手。"},
+#     {"role": "user", "content": "给我讲个笑话"},
+#     {"role": "assistant", "content": "鸡为什么过马路"},
+#     {"role": "user", "content": "我不知道"},
+# ]
+# response = get_completion_from_messages(messages, temperature=0)
+# print(response)
+
+# messages = [
+#     {"role": "system", "content": "你是个友好的聊天机器人。"},
+#     {"role": "user", "content": "Hi, 我是Isa。"},
+# ]
+# response = get_completion_from_messages(messages, temperature=1)
+# print(response)
+
+# # 中文
+# messages = [
+#     {"role": "system", "content": "你是个友好的聊天机器人。"},
+#     {"role": "user", "content": "好，你能提醒我，我的名字是什么吗？"},
+# ]
+# response = get_completion_from_messages(messages, temperature=1)
+# print(response)
+
+# 中文
+# messages = [
+#     {"role": "system", "content": "你是个友好的聊天机器人。"},
+#     {"role": "user", "content": "Hi, 我是Isa"},
+#     {"role": "assistant", "content": "Hi Isa! 很高兴认识你。今天有什么可以帮到你的吗?"},
+#     {"role": "user", "content": "是的，你可以提醒我, 我的名字是什么?"},
+# ]
+# response = get_completion_from_messages(messages, temperature=1)
+# print(response)
+
+# collect_messages()
+
+# 学习到3.1 构建机器人
