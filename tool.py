@@ -21,7 +21,7 @@ def get_completion(prompt, temperature=1):
 
 
 def get_completion_from_messages(
-    messages, model="deepseek-chat", temperature=0, max_tokens=4096, stream=False
+    messages, model="deepseek-chat", temperature=0.7, max_tokens=4096, stream=False
 ):
     client = OpenAI(api_key=get_openai_key(), base_url="https://api.deepseek.com")
     response = client.chat.completions.create(
@@ -35,7 +35,7 @@ def get_completion_from_messages(
 
 
 def get_completion_and_token_count(
-    messages, model="deepseek-chat", temperature=0, max_tokens=4096, stream=False
+    messages, model="deepseek-chat", temperature=0.7, max_tokens=4096, stream=False
 ):
     client = OpenAI(api_key=get_openai_key(), base_url="https://api.deepseek.com")
     response = client.chat.completions.create(

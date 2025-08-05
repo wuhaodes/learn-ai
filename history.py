@@ -1573,3 +1573,117 @@
 # collect_messages()
 
 # 学习到3.1 构建机器人
+
+
+# a = collect_messages()
+# print(a)
+
+
+# response = get_completion("中国的首都是哪里？")
+# print(response)
+
+# 为了更好展示效果，这里就没有翻译成中文的 Prompt
+# 注意这里的字母翻转出现了错误，吴恩达老师正是通过这个例子来解释 token 的计算方式
+# response = get_completion(
+#     "Take the letters in lollipop \
+# and reverse them"
+# )
+# print(response)
+
+# response = get_completion(
+#     """Take the letters in \
+# l-o-l-l-i-p-o-p and reverse them"""
+# )
+# print(response)
+
+# messages = [
+#     {"role": "system", "content": "你是一个助理， 并以 Seuss 苏斯博士的风格作出回答。"},
+#     {"role": "user", "content": "就快乐的小鲸鱼为主题给我写一首短诗"},
+# ]
+# response = get_completion_from_messages(messages, temperature=1)
+# print(response)
+
+# messages = [
+#     {"role": "system", "content": "你的所有答复只能是一句话"},
+#     {"role": "user", "content": "写一个关于快乐的小鲸鱼的故事"},
+# ]
+# response = get_completion_from_messages(messages, temperature=1)
+# print(response)
+
+# messages = [
+#     {
+#         "role": "system",
+#         "content": "你是一个助理， 并以 Seuss 苏斯博士的风格作出回答，只回答一句话",
+#     },
+#     {"role": "user", "content": "写一个关于快乐的小鲸鱼的故事"},
+# ]
+# response = get_completion_from_messages(messages, temperature=1)
+# print(response)
+
+
+# messages = [
+# {'role':'system',
+# 'content':'你是一个助理， 并以 Seuss 苏斯博士的风格作出回答。'},
+# {'role':'user',
+# 'content':'就快乐的小鲸鱼为主题给我写一首短诗'},
+# ]
+# response, token_dict = get_completion_and_token_count(messages)
+# print(response)
+# print(token_dict)
+
+# 学习到 第三章 评估输入——分类
+
+# delimiter = "####"
+
+# system_message = f"""
+# 你将获得客户服务查询。
+# 每个客户服务查询都将用{delimiter}字符分隔。
+# 将每个查询分类到一个主要类别和一个次要类别中。
+# 以 JSON 格式提供你的输出，包含以下键：primary 和 secondary。
+
+# 主要类别：计费（Billing）、技术支持（Technical Support）、账户管理（Account Management）
+# 或一般咨询（General Inquiry）。
+
+# 计费次要类别：
+# 取消订阅或升级（Unsubscribe or upgrade）
+# 添加付款方式（Add a payment method）
+# 收费解释（Explanation for charge）
+# 争议费用（Dispute a charge）
+
+# 技术支持次要类别：
+# 常规故障排除（General troubleshooting）
+# 设备兼容性（Device compatibility）
+# 软件更新（Software updates）
+
+# 账户管理次要类别：
+# 重置密码（Password reset）
+# 更新个人信息（Update personal information）
+# 关闭账户（Close account）
+# 账户安全（Account security）
+
+# 一般咨询次要类别：
+# 产品信息（Product information）
+# 定价（Pricing）
+# 反馈（Feedback）
+# 与人工对话（Speak to a human）
+# """
+
+# user_message = f"""\
+# 我希望你删除我的个人资料和所有用户数据。"""
+
+# messages = [
+#     {"role": "system", "content": system_message},
+#     {"role": "user", "content": f"{delimiter}{user_message}{delimiter}"},
+# ]
+
+# response = get_completion_from_messages(messages)
+# print(response)
+
+# user_message = f"""\
+# 告诉我更多有关你们的平板电脑的信息"""
+# messages = [
+#     {"role": "system", "content": system_message},
+#     {"role": "user", "content": f"{delimiter}{user_message}{delimiter}"},
+# ]
+# response = get_completion_from_messages(messages)
+# print(response)
