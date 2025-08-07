@@ -1,0 +1,82 @@
+[
+    {
+        "名称": "TechPro 超极本",
+        "类别": "电脑和笔记本",
+        "品牌": "TechPro",
+        "型号": "TP-UB100",
+        "保修期": "1 year",
+        "评分": 4.5,
+        "特色": [
+            "13.3-inch display",
+            "8GB RAM",
+            "256GB SSD",
+            "Intel Core i5 处理器"
+        ],
+        "描述": "一款时尚轻便的超极本，适合日常使用。",
+        "价格": 799.99
+    },
+    {
+        "名称": "BlueWave 游戏本",
+        "类别": "电脑和笔记本",
+        "品牌": "BlueWave",
+        "型号": "BW-GL200",
+        "保修期": "2 years",
+        "评分": 4.7,
+        "特色": [
+            "15.6-inch display",
+            "16GB RAM",
+            "512GB SSD",
+            "NVIDIA GeForce RTX 3060"
+        ],
+        "描述": "一款高性能的游戏笔记本电脑，提供沉浸式体验。",
+        "价格": 1199.99
+    },
+    {
+        "名称": "PowerLite Convertible",
+        "类别": "电脑和笔记本",
+        "品牌": "PowerLite",
+        "型号": "PL-CV300",
+        "保修期": "1 year",
+        "评分": 4.3,
+        "特色": [
+            "14-inch touchscreen",
+            "8GB RAM",
+            "256GB SSD",
+            "360-degree hinge"
+        ],
+        "描述": "一款多功能的可转换笔记本电脑，具有灵敏的触摸屏。",
+        "价格": 699.99
+    },
+    {
+        "名称": "TechPro Desktop",
+        "类别": "电脑和笔记本",
+        "品牌": "TechPro",
+        "型号": "TP-DT500",
+        "保修期": "1 year",
+        "评分": 4.4,
+        "特色": [
+            "Intel Core i7 processor",
+            "16GB RAM",
+            "1TB HDD",
+            "NVIDIA GeForce GTX 1660"
+        ],
+        "描述": "一款功能强大的台式电脑，适用于工作和娱乐。",
+        "价格": 999.99
+    },
+    {
+        "名称": "BlueWave Chromebook",
+        "类别": "电脑和笔记本",
+        "品牌": "BlueWave",
+        "型号": "BW-CB100",
+        "保修期": "1 year",
+        "评分": 4.1,
+        "特色": [
+            "11.6-inch display",
+            "4GB RAM",
+            "32GB eMMC",
+            "Chrome OS"
+        ],
+        "描述": "一款紧凑而价格实惠的Chromebook，适用于日常任务。",
+        "价格": 249.99
+    }
+]
