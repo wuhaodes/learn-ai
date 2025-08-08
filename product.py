@@ -1,12 +1,6 @@
-import json
+from json_tool import get_json_str
 
-# 读取产品信息
-with open("products.json", "r") as file:
-    products = json.load(file)
-
-
-def get_product_info():
-    print(products)
+products = get_json_str("products_zh.json")
 
 
 def get_product_by_name(name):
