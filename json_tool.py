@@ -1,5 +1,6 @@
 import json
 
+
 def get_json_str(filename):
     # 读取产品信息
     with open(filename, "r") as file:
@@ -25,3 +26,7 @@ def read_string_to_list(input_string):
     except json.JSONDecodeError:
         print("Error: Invalid JSON string")
         return None
+
+
+def json_dumps(data, ensure_ascii, indent):
+    return json.dumps(data, ensure_ascii=ensure_ascii, indent=indent)

@@ -1,5 +1,6 @@
 # from tool import get_completion_from_messages
-# from json_tool import read_string_to_list
+from json_tool import read_string_to_list
+from product import generate_output_string
 
 # 二、检索详细信息
 
@@ -14,3 +15,18 @@
 # print(list)
 
 # 3.2 进行检索
+
+str = """
+[{'category': 'Smartphones and Accessories', 'products': ['SmartX ProPhone']},
+{'category': 'Cameras and Camcorders', 'products': ['FotoSnap DSLR Camera',
+'FotoSnap Mirrorless Camera', 'FotoSnap Instant Camera']}, {'category':'Televisions and Home Theater Systems', 'products': ['CineView 4K TV', 'CineView 8K TV', 'CineView OLED TV', 'SoundMax Home Theater', 'SoundMax Soundbar']}]
+"""
+
+category_product_list = read_string_to_list(str)
+# print(category_product_list)
+
+product_information_for_user_message_1 = generate_output_string(category_product_list)
+print(product_information_for_user_message_1)
+
+
+# 3.3 生成用户查询的答案
