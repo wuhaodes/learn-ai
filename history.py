@@ -2778,3 +2778,29 @@
 # assistant_answer_2 = "life is like a box of chocolates"
 # res2 = eval_vs_ideal(test_set_ideal, assistant_answer_2)
 # print(res2)
+
+# 第三部分 使用 LangChain 开发应用程序
+# from tool import get_completion
+
+# # res = get_completion("1+1是什么？")
+# # print(res)
+
+
+# customer_email = """
+# 嗯呐，我现在可是火冒三丈，我那个搅拌机盖子竟然飞了出去，把我厨房的墙壁都溅上了果汁！
+# 更糟糕的是，保修条款可不包括清理我厨房的费用。
+# 伙计，赶紧给我过来！
+# """
+
+# # 普通话 + 平静、尊敬的语调
+# style = """正式普通话 \
+# 用一个平静、尊敬、有礼貌的语调"""
+
+# prompt = f"""把由三个反引号分隔的文本\
+# 翻译成一种{style}风格。
+# 文本: ```{customer_email}```
+# """
+# print("提示：", prompt)
+
+# response = get_completion(prompt)
+# print(response)
