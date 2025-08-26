@@ -3047,3 +3047,214 @@
 # memory.save_context({"input": "朝辞白帝彩云间，"}, {"output": "千里江陵一日还。"})
 # memory.save_context({"input": "两岸猿声啼不住，"}, {"output": "轻舟已过万重山。"})
 # memory.load_memory_variables({})
+
+# prompt = ChatPromptTemplate.from_template(
+#     "描述制造{product}的一个公司的最佳名称是什么?"
+# )
+# chain = LLMChain(llm=llm, prompt=prompt)
+# product = "大号床单套装"
+# res = chain.run(product)
+# print(res)
+
+# 提示模板 1 ：这个提示将接受产品并返回最佳名称来描述该公司
+# first_prompt = ChatPromptTemplate.from_template(
+#     "描述制造{product}的一个公司的最好的名称是什么"
+# )
+# chain_one = LLMChain(llm=llm, prompt=first_prompt)
+# # 提示模板 2 ：接受公司名称，然后输出该公司的长为20个单词的描述
+# second_prompt = ChatPromptTemplate.from_template(
+#     "写一个20字的描述对于下面这个\
+# 公司：{company_name}的"
+# )
+# chain_two = LLMChain(llm=llm, prompt=second_prompt)
+# overall_simple_chain = SimpleSequentialChain(
+#     chains=[chain_one, chain_two], verbose=True
+# )
+
+# product = "大号床单套装"
+# res = overall_simple_chain.run(product)
+# print(res)
+
+# 三、顺序链
+
+# 子链1
+# prompt模板 1: 翻译成英语（把下面的review翻译成英语）
+# first_prompt = ChatPromptTemplate.from_template(
+#     "把下面的评论review翻译成英文:" "\n\n{Review}"
+# )
+# # chain 1: 输入：Review 输出：英文的 Review
+# chain_one = LLMChain(llm=llm, prompt=first_prompt, output_key="English_Review")
+# # 子链2
+# # prompt模板 2: 用一句话总结下面的 review
+# second_prompt = ChatPromptTemplate.from_template(
+#     "请你用一句话来总结下面的评论review:" "\n\n{English_Review}"
+# )
+# # chain 2: 输入：英文的Review 输出：总结
+# chain_two = LLMChain(llm=llm, prompt=second_prompt, output_key="summary")
+# # 子链3
+# # prompt模板 3: 下面review使用的什么语言
+# third_prompt = ChatPromptTemplate.from_template(
+#     "下面的评论review使用的什么语言:\n\n{Review}"
+# )
+# # chain 3: 输入：Review 输出：语言
+# chain_three = LLMChain(llm=llm, prompt=third_prompt, output_key="language")
+# # 子链4
+# # prompt模板 4: 使用特定的语言对下面的总结写一个后续回复
+# fourth_prompt = ChatPromptTemplate.from_template(
+#     "使用特定的语言对下面的总结写一个后续回复:"
+#     "\n\n总结: {summary}\n\n语言: {language}"
+# )
+# # chain 4: 输入： 总结, 语言 输出： 后续回复
+# chain_four = LLMChain(llm=llm, prompt=fourth_prompt, output_key="followup_message")
+# #输入：review
+# #输出：英文review，总结，后续回复
+# overall_chain = SequentialChain(
+# chains=[chain_one, chain_two, chain_three, chain_four],
+# input_variables=["Review"],
+# output_variables=["English_Review", "summary","followup_message"],
+# verbose=True
+# )
+
+# df = pd.read_csv('./data/Data.csv')
+# review = df.Review[5]
+# res = overall_chain(review)
+# print(res)
+
+# 第四章 模型链
+# import warnings
+# import pandas as pd
+
+# warnings.filterwarnings("ignore")
+# from langchain_openai import ChatOpenAI  # type: ignore
+# from langchain.prompts import ChatPromptTemplate  # type: ignore
+# from langchain.chains import LLMChain, SequentialChain  # type: ignore
+# from tool import get_openai_key
+# from langchain.chains.router import MultiPromptChain  # 导入多提示链
+# from langchain.chains.router.llm_router import LLMRouterChain, RouterOutputParser
+# from langchain.prompts import PromptTemplate
+
+# api_key = get_openai_key()
+
+# # 这里我们将参数temperature设置为0.0，从而减少生成答案的随机性。
+# # 如果你想要每次得到不一样的有新意的答案，可以尝试调整该参数。
+# llm = ChatOpenAI(
+#     model="deepseek-reasoner",
+#     api_key=api_key,
+#     base_url="https://api.deepseek.com",
+#     temperature=0.0,
+# )
+
+# # 中文
+# # 第一个提示适合回答物理问题
+# physics_template = """你是一个非常聪明的物理专家。 \
+# 你擅长用一种简洁并且易于理解的方式去回答问题。\
+# 当你不知道问题的答案时，你承认\
+# 你不知道.
+# 这是一个问题:
+# {input}"""
+# # 第二个提示适合回答数学问题
+# math_template = """你是一个非常优秀的数学家。 \
+# 你擅长回答数学问题。 \
+# 你之所以如此优秀， \
+# 是因为你能够将棘手的问题分解为组成部分，\
+# 回答组成部分，然后将它们组合在一起，回答更广泛的问题。
+# 这是一个问题：
+# {input}"""
+# # 第三个适合回答历史问题
+# history_template = """你是一位非常优秀的历史学家。 \
+# 你对一系列历史时期的人物、事件和背景有着极好的学识和理解\
+# 你有能力思考、反思、辩证、讨论和评估过去。\
+# 你尊重历史证据，并有能力利用它来支持你的解释和判断。
+# 这是一个问题:
+# {input}"""
+# # 第四个适合回答计算机问题
+# computer_science_template = """ 你是一个成功的计算机科学专家。\
+# 你有创造力、协作精神、\
+# 前瞻性思维、自信、解决问题的能力、\
+# 对理论和算法的理解以及出色的沟通技巧。\
+# 你非常擅长回答编程问题。\
+# 你之所以如此优秀，是因为你知道 \
+# 如何通过以机器可以轻松解释的命令式步骤描述解决方案来解决问题，\
+# 并且你知道如何选择在时间复杂性和空间复杂性之间取得良好平衡的解决方案。
+# 这还是一个输入：
+# {input}"""
+
+# # 中文
+# prompt_infos = [
+#     {
+#         "名字": "物理学",
+#         "描述": "擅长回答关于物理学的问题",
+#         "提示模板": physics_template,
+#     },
+#     {"名字": "数学", "描述": "擅长回答数学问题", "提示模板": math_template},
+#     {"名字": "历史", "描述": "擅长回答历史问题", "提示模板": history_template},
+#     {
+#         "名字": "计算机科学",
+#         "描述": "擅长回答计算机科学问题",
+#         "提示模板": computer_science_template,
+#     },
+# ]
+
+# destination_chains = {}
+# for p_info in prompt_infos:
+#     name = p_info["名字"]
+#     prompt_template = p_info["提示模板"]
+#     prompt = ChatPromptTemplate.from_template(template=prompt_template)
+#     chain = LLMChain(llm=llm, prompt=prompt)
+#     destination_chains[name] = chain
+# destinations = [f"{p['名字']}: {p['描述']}" for p in prompt_infos]
+# destinations_str = "\n".join(destinations)
+# default_prompt = ChatPromptTemplate.from_template("{input}")
+# default_chain = LLMChain(llm=llm, prompt=default_prompt)
+# # print(default_chain.invoke("What is black body radiation?"))
+
+# # 多提示路由模板
+# MULTI_PROMPT_ROUTER_TEMPLATE = """给语言模型一个原始文本输入，\
+# 让其选择最适合输入的模型提示。\
+# 系统将为您提供可用提示的名称以及最适合改提示的描述。\
+# 如果你认为修改原始输入最终会导致语言模型做出更好的响应，\
+# 你也可以修改原始输入。
+# << 格式 >>
+# 返回一个带有JSON对象的markdown代码片段，该JSON对象的格式如下：
+# ```json
+# {{{{
+# "destination": 字符串使用的提示名字或者使用 "DEFAULT"
+# "next_inputs": 字符串原始输入的改进版本
+# }}}}
+# 记住：“destination”必须是下面指定的候选提示名称之一，\
+# 或者如果输入不太适合任何候选提示，\
+# 则可以是 “DEFAULT” 。
+# 记住：如果您认为不需要任何修改，\
+# 则 “next_inputs” 可以只是原始输入。
+# << 候选提示 >>
+# {destinations}
+# << 输入 >>
+# {{input}}
+# << 输出 (记得要包含 ```json)>>
+# 样例:
+# << 输入 >>
+# "什么是黑体辐射?"
+# << 输出 >>
+# ```json
+# {{{{
+# "destination": 字符串使用的提示名字或者使用 "DEFAULT"
+# "next_inputs": 字符串原始输入的改进版本
+# }}}}
+# """
+# router_template = MULTI_PROMPT_ROUTER_TEMPLATE.format(destinations=destinations_str)
+# router_prompt = PromptTemplate(
+#     template=router_template,
+#     input_variables=["input"],
+#     output_parser=RouterOutputParser(),
+# )
+# router_chain = LLMRouterChain.from_llm(llm, router_prompt)
+# chain = MultiPromptChain(
+#     router_chain=router_chain,  # l路由链路
+#     destination_chains=destination_chains,  # 目标链路
+#     default_chain=default_chain,  # 默认链路
+#     verbose=True,
+# )
+
+# # print(chain.invoke("什么是黑体辐射？"))
+# # chain.run("2+2等于多少？")
+# print(chain.invoke("2+2等于多少？"))
