@@ -93,3 +93,6 @@ examples += [v for item in new_examples for k, v in item.items()]
 print(qa.run(examples[0]["query"]))
 
 # 三、 通过LLM进行评估实例
+
+
+# 写个临时内容占个位，明天补回来，最近工作的事比较闹心，破公司拖欠工资
