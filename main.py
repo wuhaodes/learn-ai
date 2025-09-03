@@ -1,98 +1,78 @@
-# 1.3 通过LLM生成测试用例
-from langchain.evaluation.qa import QAGenerateChain  # type: ignore #导入QA生成链，它将接收文档，并从每个文档中创建一个问题答案对
-from langchain.chat_models import ChatOpenAI  # type: ignore #openai模型
-from langchain.document_loaders import CSVLoader  # type: ignore #文档加载器，采用csv格式存储
-from langchain.chains import RetrievalQA  # type: ignore #检索QA链，在文档上进行检索
-from langchain.vectorstores import DocArrayInMemorySearch  # type: ignore #向量存储
-from langchain.indexes import VectorstoreIndexCreator  # type: ignore
-from langchain_community.embeddings import OllamaEmbeddings  # type: ignore
-from langchain.text_splitter import RecursiveCharacterTextSplitter  # type: ignore
+# from langchain_community.document_loaders import PyPDFLoader  # type: ignore
+# from langchain_community.document_loaders.generic import GenericLoader  # type: ignore
+# from langchain_community.document_loaders.parsers.audio import OpenAIWhisperParser  # type: ignore
+# from langchain_community.document_loaders.blob_loaders.youtube_audio import YoutubeAudioLoader  # type: ignore
 
-# 下面是langchain.evaluation.qa.generate_prompt中的源码，在template的最后加上“请使用中文输出”
-from langchain.output_parsers.regex import RegexParser  # type: ignore
-from langchain.prompts import PromptTemplate  # type: ignore
-from langchain.base_language import BaseLanguageModel  # type: ignore
-from typing import Any
-from tool import get_openai_key
+# url = "http://vd3.bdstatic.com/mda-ri168b4d5um4kbtf/360p/h264/1756787078853191638/mda-ri168b4d5um4kbtf.mp4"
+# save_dir = "docs/video/"
 
-template = """You are a teacher coming up with questions to ask on a quiz.
-Given the following document, please generate a question and answer based on that
-document.
-Example Format:
-<Begin Document>
-...
-<End Document>
-QUESTION: question here
-ANSWER: answer here
-These questions should be detailed and be based explicitly on information in the
-document. Begin!
-<Begin Document>
-{doc}
-<End Document>
-请使用中文输出
-"""
+# # 创建一个 GenericLoader Class 实例
+# loader = GenericLoader(
+#     # 将链接url中的Youtube视频的音频下载下来,存在本地路径save_dir
+#     YoutubeAudioLoader([url], save_dir),
+#     # 使用OpenAIWhisperPaser解析器将音频转化为文本
+#     OpenAIWhisperParser(),
+# )
+# # 调用 GenericLoader Class 的函数 load对视频的音频文件进行加载
+# pages = loader.load()
 
-output_parser = RegexParser(
-    regex=r"QUESTION: (.*?)\nANSWER: (.*)", output_keys=["query", "answer"]
+# print("Type of pages: ", type(pages))
+# print("Length of pages: ", len(pages))
+# page = pages[0]
+# print("Type of page: ", type(page))
+# print("Page_content: ", page.page_content[:500])
+# print("Meta Data: ", page.metadata)
+
+from langchain_community.document_loaders import PyPDFLoader
+from langchain_community.document_loaders.generic import GenericLoader
+from langchain_community.document_loaders.blob_loaders.youtube_audio import (
+    YoutubeAudioLoader,
 )
-PROMPT = PromptTemplate(
-    input_variables=["doc"], template=template, output_parser=output_parser
-)
+from faster_whisper import WhisperModel
 
 
-# 继承QAGenerateChain
-class ChineseQAGenerateChain(QAGenerateChain):
-    """LLM Chain specifically for generating examples for question answering."""
+# 自定义本地Whisper解析器（替换OpenAIWhisperParser）
+class LocalWhisperParser:
+    def __init__(self, model_size="tiny", language=None):
+        """
+        初始化本地Whisper解析器
 
-    @classmethod
-    def from_llm(cls, llm: BaseLanguageModel, **kwargs: Any) -> QAGenerateChain:
-        """Load QA Generate Chain from LLM."""
-        return cls(llm=llm, prompt=PROMPT, **kwargs)
+        参数:
+            model_size: 模型大小(tiny/base/small/medium/large)
+            language: 语言代码(如"zh"表示中文,"en"表示英文), None为自动检测
+        """
+        self.model = WhisperModel(model_size, device="cpu", compute_type="int8")
+        self.language = language
+
+    def parse(self, audio_path):
+        """解析音频文件并返回转录文本"""
+        segments, info = self.model.transcribe(
+            audio_path, beam_size=5, language=self.language
+        )
+        text = "".join([seg.text for seg in segments])
+        return [{"text": text}]
 
 
-api_key = get_openai_key()
+# 视频URL和保存目录
+url = "http://vd3.bdstatic.com/mda-ri168b4d5um4kbtf/360p/h264/1756787078853191638/mda-ri168b4d5um4kbtf.mp4"
+save_dir = "docs/video/"
 
-llm = ChatOpenAI(
-    model="deepseek-reasoner",
-    api_key=api_key,
-    base_url="https://api.deepseek.com",
-    temperature=0.0,
-)
-
-file = "./data/product_data.csv"
-loader = CSVLoader(file_path=file)
-data = loader.load()
-
-text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=50)
-chunks = text_splitter.split_documents(data)
-embedding = OllamaEmbeddings(model="nomic-embed-text")
-
-index = VectorstoreIndexCreator(
-    vectorstore_cls=DocArrayInMemorySearch, embedding=embedding
-).from_loaders([loader])
-
-qa = RetrievalQA.from_chain_type(
-    llm=llm,
-    chain_type="stuff",
-    retriever=index.vectorstore.as_retriever(),
-    verbose=True,
-    chain_type_kwargs={"document_separator": "<<<<>>>>>"},
+# 创建加载器（使用本地解析器替换OpenAIWhisperParser）
+loader = GenericLoader(
+    YoutubeAudioLoader([url], save_dir),  # 下载YouTube音频
+    LocalWhisperParser(model_size="tiny", language="zh"),  # 本地音频解析器
 )
 
-example_gen_chain = ChineseQAGenerateChain.from_llm(
-    llm
-)  # 通过传递chat open AI语言模型来创建这个链
-new_examples = example_gen_chain.apply([{"doc": t} for t in data[:5]])
+# 加载并转录音频
+pages = loader.load()
 
-examples = [
-    {"query": "高清电视机怎么进行护理？", "answer": "使用干布清洁。"},
-    {"query": "旅行背包有内外袋吗？", "answer": "有。"},
-]
-
-examples += [v for item in new_examples for k, v in item.items()]
-print(qa.run(examples[0]["query"]))
-
-# 三、 通过LLM进行评估实例
-
-
-# 写个临时内容占个位，明天补回来，最近工作的事比较闹心，破公司拖欠工资
+# 输出结果
+print("Type of pages: ", type(pages))
+print("Length of pages: ", len(pages))
+if pages:
+    page = pages[0]
+    print("Type of page: ", type(page))
+    print("Page_content: ", page.page_content[:500])
+    print("Meta Data: ", page.metadata)
+else:
+    print("未成功转录音频内容")
